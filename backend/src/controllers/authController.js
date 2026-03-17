@@ -152,7 +152,7 @@ export const googleCallback = [
     // Paso 1: Passport verifica el código y puebla req.user
     passport.authenticate("google", {
         session: false,
-        failureRedirect: `${process.env.FRONTEND_URL}/frontend/index.html?error=oauth_failed`,
+        failureRedirect: `${process.env.FRONTEND_URL}/index.html?error=oauth_failed`,
     }),
 
     // Paso 2: Generar JWT y redirigir al dashboard
@@ -165,7 +165,7 @@ export const googleCallback = [
 
         // Construir URL de redirección con los datos del usuario
         const redirectUrl = new URL(
-            `${process.env.FRONTEND_URL}/frontend/dashboard.html`,
+            `${process.env.FRONTEND_URL}/dashboard.html`,
         );
         redirectUrl.searchParams.set("token", token);
         redirectUrl.searchParams.set("name", req.user.name ?? "");
