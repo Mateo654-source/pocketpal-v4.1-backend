@@ -39,7 +39,7 @@ const startServer = async () => {
         console.log("Base de datos inicializada correctamente");
 
         // Paso 2: Iniciar servidor HTTP
-        app.listen(PORT, () => {
+        app.listen(PORT, '0.0.0.0', () => {
             console.log(`🚀 Servidor corriendo en: ${PORT}`);
             console.log(`🌍 Entorno: ${process.env.NODE_ENV || "development"}`);
         });
