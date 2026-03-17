@@ -105,7 +105,7 @@ export const rules = {
         create: {
             type: [
                 r.required("type"),
-                r.isOneOf("type", ["income", "expense"]),
+                r.isOneOf("type", ["income", "expense", "transfer"]),
             ],
             amount: [r.required("amount"), r.isPositiveNumber("amount")],
             category_id: [
@@ -118,7 +118,7 @@ export const rules = {
         update: {
             type: [
                 r.required("type"),
-                r.isOneOf("type", ["income", "expense"]),
+                r.isOneOf("type", ["income", "expense", "transfer"]),
             ],
             amount: [r.required("amount"), r.isPositiveNumber("amount")],
             category_id: [
@@ -182,6 +182,12 @@ export const rules = {
         },
         allocate: {
             amount: [r.required("amount"), r.isPositiveNumber("amount")],
+        },
+        complete: {
+            completionType: [
+                r.required("completionType"),
+                r.isOneOf("completionType", ["saving", "spend"]),
+            ],
         },
     },
 

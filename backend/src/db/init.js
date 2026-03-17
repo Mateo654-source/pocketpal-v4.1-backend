@@ -7,7 +7,7 @@
  * (desde server.js) antes de aceptar peticiones HTTP.
  *
  * Orden de creación respeta las dependencias de foreign keys:
- *   users → categories → transactions → goals → goal_allocations → ai_chat_history
+ *   users → categories → transactions → goals → goal_allocations → ai_chat_history → merchant_category_cache
  */
 
 import { pool } from "../config/db.js";
@@ -58,15 +58,16 @@ const TABLES = [
 
     /**
      * Tabla transactions — Registro de movimientos financieros.
-     * - type: 'income' (ingreso), 'expense' (gasto), 'saving' (aporte a meta).
-     * - Los aportes a metas (type='saving') reducen el balance disponible.
+     * - type: 'income' (ingreso), 'expense' (gasto), 'saving' (aporte a meta),
+     *         'transfer' (transferencia saliente, tratada como gasto en el balance).
+     * - Los aportes a metas (type='saving') y las transferencias reducen el balance.
      * - Índice compuesto (user_id, date) acelera las consultas de historial.
      */
     `CREATE TABLE IF NOT EXISTS transactions (
     id          INT AUTO_INCREMENT PRIMARY KEY,
     user_id     INT NOT NULL,
     category_id INT NOT NULL,
-    type        ENUM('income', 'expense', 'saving') NOT NULL,
+    type        ENUM('income', 'expense', 'saving', 'transfer') NOT NULL,
     amount      DECIMAL(12,2) NOT NULL,
     description TEXT,
     date        DATE NOT NULL DEFAULT (CURRENT_DATE),
@@ -132,6 +133,22 @@ const TABLES = [
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_chat_user (user_id, created_at DESC),
     CONSTRAINT fk_chat_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
+
+    /**
+     * Tabla merchant_category_cache — Caché de categorías por nombre de comercio.
+     * Evita llamar a la IA en cada sincronización para merchants ya clasificados.
+     * La clave UNIQUE en merchant garantiza que ON DUPLICATE KEY UPDATE funcione
+     * correctamente al actualizar la categoría de un comercio conocido.
+     */
+    `CREATE TABLE IF NOT EXISTS merchant_category_cache (
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    merchant    VARCHAR(255) NOT NULL,
+    category_id INT NOT NULL,
+    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE KEY uq_merchant (merchant),
+    CONSTRAINT fk_mcc_category FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
 ];
 

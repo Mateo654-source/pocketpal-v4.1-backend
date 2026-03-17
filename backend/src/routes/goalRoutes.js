@@ -35,6 +35,6 @@ router.delete("/:id", deleteGoal);
 router.post("/:goalId/contribute", addContribution);
 
 // Decisión final cuando la meta se completa
-router.post("/:goalId/complete", completeGoal);
+router.post("/:goalId/complete", validate(rules.goal.complete), completeGoal);
 
 export default router;
