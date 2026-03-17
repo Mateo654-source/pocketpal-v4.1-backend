@@ -6,7 +6,7 @@
  * correos bancarios recientes, los parsea y los inserta en la base de datos
  * evitando duplicados (via gmail_message_id).
  *
- * RePOKIción automática del access_token:
+ * Renovación automática del access_token:
  *   Google expira el access_token en ~1 hora. Si la petición a Gmail falla
  *   con un error de autenticación (401/403 o "invalid_grant"), este servicio
  *   usa el refresh_token para obtener un token nuevo, lo persiste en la BD
