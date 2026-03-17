@@ -2,7 +2,7 @@
  * @file src/controllers/aiController.js
  * @description Controller HTTP para el recurso /api/ai.
  *
- * Expone el agente NOVA (basado en OpenAI) para chat con contexto financiero.
+ * Expone el agente POKI (basado en OpenAI) para chat con contexto financiero.
  * Toda la lógica del agente (system prompt, tools, historial) está en aiService.js.
  *
  * Rutas soportadas (todas requieren token JWT válido):
@@ -15,11 +15,11 @@ import aiService from "../services/aiService.js";
 
 /**
  * POST /api/ai/chat
- * Envía un mensaje al agente NOVA y recibe una respuesta.
+ * Envía un mensaje al agente POKI y recibe una respuesta.
  *
  * El servicio carga automáticamente el historial desde la base de datos
  * para mantener contexto entre sesiones. También carga datos financieros
- * actuales del usuario para que NOVA pueda dar respuestas precisas.
+ * actuales del usuario para que POKI pueda dar respuestas precisas.
  *
  * Body requerido (validado por validate middleware):
  *   { message: string }
@@ -62,7 +62,7 @@ export const chat = async (req, res, next) => {
 
 /**
  * GET /api/ai/history
- * Retorna el historial de conversación del usuario con el agente NOVA.
+ * Retorna el historial de conversación del usuario con el agente POKI.
  * Útil para restaurar el chat al recargar la página.
  *
  * Respuesta 200:

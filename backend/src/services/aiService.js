@@ -1,6 +1,6 @@
 /**
  * @file src/services/aiService.js
- * @description Agente IA "NOVA" — asistente financiero personal de PocketPal.
+ * @description Agente IA "POKI" — asistente financiero personal de PocketPal.
  *
  * Usa la API de OpenAI (GPT-4o) con "tool calling" para que el agente pueda
  * realizar acciones reales sobre los datos del usuario:
@@ -94,7 +94,7 @@ const loadFinancialContext = async (userId) => {
 
 /**
  * Construye el system prompt del agente con datos financieros reales del usuario.
- * Cuanto más preciso sea el contexto, mejores serán las respuestas de NOVA.
+ * Cuanto más preciso sea el contexto, mejores serán las respuestas de POKI.
  *
  * @param {object} ctx - Contexto cargado por loadFinancialContext().
  * @returns {string} System prompt completo para OpenAI.
@@ -139,7 +139,7 @@ const buildSystemPrompt = (ctx) => {
             )
             .join("\n") || "  (sin historial)";
 
-    return `Eres NOVA, asistente financiero personal integrado en PocketPal. Respondes en español colombiano, eres preciso y amigable.
+    return `Eres POKI, asistente financiero personal integrado en PocketPal. Respondes en español colombiano, eres preciso y amigable.
 
 FECHA ACTUAL: ${ctx.date} | MES: ${ctx.month}
 
@@ -509,7 +509,7 @@ const toolExecutors = {
 
 const aiService = {
     /**
-     * Envía un mensaje al agente NOVA y obtiene su respuesta.
+     * Envía un mensaje al agente POKI y obtiene su respuesta.
      *
      * Si OpenAI decide usar una herramienta:
      *   1. Ejecuta el toolExecutor correspondiente.

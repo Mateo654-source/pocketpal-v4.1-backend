@@ -1,6 +1,6 @@
 /**
  * @file src/routes/aiRoutes.js
- * @description Rutas del agente IA NOVA en /api/ai.
+ * @description Rutas del agente IA POKI en /api/ai.
  *
  * El endpoint de chat tiene un rate limiter adicional (aiLimiter) de
  * 30 mensajes/hora por IP para controlar el consumo de tokens de OpenAI.

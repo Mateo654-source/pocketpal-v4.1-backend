@@ -121,7 +121,7 @@ const TABLES = [
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci`,
 
     /**
-     * Tabla ai_chat_history — Historial de conversaciones con el agente NOVA.
+     * Tabla ai_chat_history — Historial de conversaciones con el agente POKI.
      * - role: 'user' (mensaje del usuario) o 'assistant' (respuesta de la IA).
      * - El índice por (user_id, created_at DESC) acelera la carga del historial.
      */

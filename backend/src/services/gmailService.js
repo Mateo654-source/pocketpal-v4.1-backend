@@ -6,7 +6,7 @@
  * correos bancarios recientes, los parsea y los inserta en la base de datos
  * evitando duplicados (via gmail_message_id).
  *
- * Renovación automática del access_token:
+ * RePOKIción automática del access_token:
  *   Google expira el access_token en ~1 hora. Si la petición a Gmail falla
  *   con un error de autenticación (401/403 o "invalid_grant"), este servicio
  *   usa el refresh_token para obtener un token nuevo, lo persiste en la BD
@@ -47,7 +47,7 @@ const getGmailClient = (accessToken) => {
     return google.gmail({ version: "v1", auth });
 };
 
-// ─── Renovación de token ──────────────────────────────────────────────────────
+// ─── RePOKIción de token ──────────────────────────────────────────────────────
 
 /**
  * Comprueba si un error de la Gmail API indica que el access_token expiró
@@ -74,7 +74,7 @@ const isAuthError = (err) => {
  * @param {number} userId       - ID del usuario.
  * @param {string} refreshToken - Google OAuth refresh token.
  * @returns {Promise<string>} Nuevo access_token.
- * @throws {Error} Si la renovación falla (refresh_token revocado o inválido).
+ * @throws {Error} Si la rePOKIción falla (refresh_token revocado o inválido).
  */
 const refreshAccessToken = async (userId, refreshToken) => {
     const oauth2Client = new google.auth.OAuth2(
@@ -95,7 +95,7 @@ const refreshAccessToken = async (userId, refreshToken) => {
         [newAccessToken, credentials.refresh_token ?? null, userId],
     );
 
-    console.log(`🔑 Access token renovado para user ${userId}`);
+    console.log(`🔑 Access token rePOKIdo para user ${userId}`);
     return newAccessToken;
 };
 
@@ -162,7 +162,7 @@ export const parseBankEmails = (emails) => {
  * Obtiene los correos bancarios del usuario, los parsea e inserta en la BD
  * las transacciones nuevas (no duplicadas).
  *
- * Si el access_token expiró, intenta renovarlo con el refresh_token y
+ * Si el access_token expiró, intenta rePOKIrlo con el refresh_token y
  * reintenta la descarga una sola vez antes de lanzar el error.
  *
  * @param {number} userId - ID del usuario a sincronizar.
@@ -177,13 +177,13 @@ export const syncTransactions = async (userId) => {
 
     if (!user?.google_access_token) throw new Error("NO_TOKEN");
 
-    // Intentar obtener los correos, renovando el token si expira
+    // Intentar obtener los correos, rePOKIndo el token si expira
     let emails;
     try {
         emails = await getBankEmails(user.google_access_token);
     } catch (err) {
         if (isAuthError(err) && user.google_refresh_token) {
-            // Token expirado → renovar y reintentar una vez
+            // Token expirado → rePOKIr y reintentar una vez
             const newToken = await refreshAccessToken(
                 userId,
                 user.google_refresh_token,
