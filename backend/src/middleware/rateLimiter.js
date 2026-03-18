@@ -3,8 +3,7 @@
  * @description Rate limiters para proteger la API contra abuso.
  *
  * Usa express-rate-limit con almacenamiento en memoria (suficiente para un
- * solo proceso). Si la app escala a múltiples instancias, cambiar el store
- * por RedisStore de @express-rate-limit/redis.
+ * solo proceso).
  *
  * Tres niveles de limitación:
  *   - apiLimiter:  límite general para toda la API (200 req / 15 min).

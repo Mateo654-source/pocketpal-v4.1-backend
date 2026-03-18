@@ -52,7 +52,7 @@ export const protect = (req, res, next) => {
 
         // Adjuntar payload decodificado para uso en controllers
         req.user = decoded;
-
+        // Seguir con el controlador
         next();
     } catch (error) {
         return res.status(401).json({

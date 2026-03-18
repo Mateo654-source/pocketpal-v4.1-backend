@@ -35,7 +35,7 @@ export class AppError extends Error {
         this.code = code;
         this.isOperational = true; // Error esperado, no un bug
 
-        // Preserva el stack trace limpiamente (excluye el constructor de la pila)
+        // Preserva el stack trace limpiamente y muestra en donde es lanzado el error unicamente (excluye el constructor de la pila)
         Error.captureStackTrace(this, this.constructor);
     }
 }
@@ -49,7 +49,10 @@ export class AppError extends Error {
  * @extends AppError
  */
 export class BadRequestError extends AppError {
-    /** @param {string} message @param {string} [code='BAD_REQUEST'] */
+    /** 
+     * @param {string} message 
+     * @param {string} [code='BAD_REQUEST']
+      */
     constructor(message, code = "BAD_REQUEST") {
         super(message, 400, code);
     }
@@ -60,7 +63,10 @@ export class BadRequestError extends AppError {
  * @extends AppError
  */
 export class UnauthorizedError extends AppError {
-    /** @param {string} [message='No autorizado'] @param {string} [code='UNAUTHORIZED'] */
+    /** 
+     * @param {string} [message='No autorizado'] 
+     * @param {string} [code='UNAUTHORIZED'] 
+     */
     constructor(message = "No autorizado", code = "UNAUTHORIZED") {
         super(message, 401, code);
     }
@@ -71,7 +77,10 @@ export class UnauthorizedError extends AppError {
  * @extends AppError
  */
 export class ForbiddenError extends AppError {
-    /** @param {string} [message='Acceso denegado'] @param {string} [code='FORBIDDEN'] */
+    /** 
+     * @param {string} [message='Acceso denegado'] 
+     * @param {string} [code='FORBIDDEN'] 
+     */
     constructor(message = "Acceso denegado", code = "FORBIDDEN") {
         super(message, 403, code);
     }
@@ -86,7 +95,10 @@ export class ForbiddenError extends AppError {
  * // Mensaje: "Transacción no encontrado"
  */
 export class NotFoundError extends AppError {
-    /** @param {string} [resource='Recurso'] @param {string} [code='NOT_FOUND'] */
+    /** 
+     * @param {string} [resource='Recurso'] 
+     * @param {string} [code='NOT_FOUND'] 
+     */
     constructor(resource = "Recurso", code = "NOT_FOUND") {
         super(`${resource} no encontrado`, 404, code);
     }
@@ -100,7 +112,10 @@ export class NotFoundError extends AppError {
  * throw new ConflictError('Ya existe una cuenta con ese correo', 'EMAIL_TAKEN');
  */
 export class ConflictError extends AppError {
-    /** @param {string} message @param {string} [code='CONFLICT'] */
+    /** 
+     * @param {string} message 
+     * @param {string} [code='CONFLICT'] 
+     */
     constructor(message, code = "CONFLICT") {
         super(message, 409, code);
     }
@@ -121,7 +136,9 @@ export class ValidationError extends AppError {
     constructor(errors) {
         const message = Array.isArray(errors) ? errors[0] : errors;
         super(message, 400, "VALIDATION_ERROR");
-        /** @type {string[]} Lista completa de errores de validación */
+        /** 
+         * @type {string[]} 
+         * Lista completa de errores de validación */
         this.errors = Array.isArray(errors) ? errors : [errors];
     }
 }
